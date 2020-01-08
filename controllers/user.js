@@ -2,22 +2,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const router = express.Router();
-const CourseModel = mongoose.model("Course");
+const UserModel = mongoose.model("User");
 
 router.get("/add", (req, res)=>{
-    res.render("course/add-course")
+    res.render("user/add-user")
 });
 
 router.post("/add", (req, res)=>{
     
-    var course = new CourseModel();
-    course.courseName = req.body.courseName;
-    course.courseDuration = req.body.courseDuration;
-    course.courseFee = req.body.courseFee;
-    course.courseId = Math.ceil(Math.random() * 1000000) ;
+    var course = new UserModel();
+    course.userName = req.body.userName;
+    course.userAvatar = req.body.userAvatar;
+    course.userID = Math.ceil(Math.random() * 1000000) ;
     course.save((err, doc)=>{
         if (!err) {
-            res.redirect("/course/list")
+            res.redirect("/user/list")
         }
         else {
             res.send(err)
@@ -26,9 +25,9 @@ router.post("/add", (req, res)=>{
 });
 
 router.get("/list", (req, res) => {
-    CourseModel.find((err, docs) => {
+    UserModel.find((err, docs) => {
         if(!err) {
-            res.render("course/list", {data : docs});
+            res.render("user/list", {data : docs});
         } else {
             res.send(err);
         }
